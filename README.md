@@ -37,9 +37,9 @@ To provision AML resources:
 1. Deploy resources:
 
     ```terraform apply -auto-approve```
-1. Once the resources are deployed you can either fetch username and password for the jumpbox either from Key Vault or you can take raw output from terraform:
+1. Once the resources are deployed you can fetch jumpbox password (marked as sensitive so blocked from outputting after terraform apply) either from Key Vault or you can take raw output from terraform:
 
-    ```terraform output -raw```
+    ```terraform output -raw jumpbox_pass```
 1. Connect to jumpbox by navigating to Azure portal, select the VM created, press Connect and choose Bastion. Enter the user name and password from the previous step.
 1. From the jumpbox you are now able to access all of the resources residing on private network (e.g. ml.azure.com)
 
