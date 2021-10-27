@@ -49,8 +49,6 @@ While AzureML can be easily deployed with a few clicks as a quick public researc
 
 Since this is a rather common scenario, and the task of creating a secure ML environment is time consuming, we saw a need for a script style accelerator that can be easily customized and reused.
 
-## Support
-
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
