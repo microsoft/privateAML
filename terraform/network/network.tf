@@ -28,5 +28,5 @@ resource "azurerm_subnet" "shared" {
   address_prefixes     = [local.shared_services_subnet_address_prefix]
   # notice that private endpoints do not adhere to NSG rules
   enforce_private_link_endpoint_network_policies = true
-  enforce_private_link_service_network_policies = true
+  enforce_private_link_service_network_policies  = true
 }
