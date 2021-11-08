@@ -114,6 +114,7 @@ module "aml" {
   application_insights_id = module.azure_monitor.app_insights_id
   key_vault_id            = module.keyvault.key_vault_id
   storage_account_id      = module.storage.storage_account_id
+  container_registry_id   = module.acr.id
 }
 
 module "jumpbox" {
