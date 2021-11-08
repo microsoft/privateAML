@@ -12,15 +12,42 @@ It is important before deployment of the solution that the [Support Policy](SUPP
 
 ## Getting started
 
-Follow the steps in the [setup](setup.md) guide.
+To provision AML resources:
+1. Clone this repository 
+
+    ```git clone https://github.com/microsoft/privateAML```
+1. Switch to terraform directory:
+
+    ```cd privateAML/terraform/```
+1. Copy parameter template file terraform.tfvars.tmpl to terraform.tfvars:
+
+    ```cp terraform.tfvars.tmpl terraform.tfvars```
+1. Modify the parameters in terraform.tfvars and save the file (you can skip this step if you are OK with defaults):
+
+    ```nano terraform.tfvars```
+
+    | Parameter | Description |
+    | --- | --- |
+    | Name | A 4 character name you can give to the resources. It will be combined with 4 random numbers to make names globally unique. If you would like to adjust the naming pattern, just adjust [locals.tf](./terraform/locals.tf) file where final name is generated. Default is "test". |
+    | Location | Azure region/location where resources should be deployed, e.g. westus, eastus, northeurope, etc. Default is "westeurope" |
+    | VNET_address_space | A network IP range that will be used to create the VNET and subnets used by the service. Default is "10.1.0.0/22." |
+1. Initialize terraform: 
+
+    ```terraform init```
+1. Deploy resources:
+
+    ```terraform apply -auto-approve```
+1. Once the resources are deployed you can fetch jumpbox password (marked as sensitive so blocked from outputting after terraform apply) either from Key Vault or you can take raw output from terraform:
+
+    ```terraform output -raw jumpbox_pass```
+1. Connect to jumpbox by navigating to Azure portal, select the VM created, press Connect and choose Bastion. Enter the user name and password from the previous step.
+1. From the jumpbox you are now able to access all of the resources residing on private network (e.g. ml.azure.com)
 
 ## Background
 
 While AzureML can be easily deployed with a few clicks as a quick public research platform, the default setup doesn't meet the security needs of many organizations. Things like controlled data ingestion, network isolation and prevention of exfiltration of sensitive data are left to the system admins to configure.
 
 Since this is a rather common scenario, and the task of creating a secure ML environment is time consuming, we saw a need for a script style accelerator that can be easily customized and reused.
-
-## Support
 
 ## Contributing
 

@@ -8,12 +8,6 @@ resource "azurerm_storage_account" "stg" {
   lifecycle { ignore_changes = [tags] }
 }
 
-resource "azurerm_storage_share" "storage_state_path" {
-  name                 = "cnab-state"
-  storage_account_name = azurerm_storage_account.stg.name
-  quota                = 50
-}
-
 data "azurerm_private_dns_zone" "blobcore" {
   name                = "privatelink.blob.core.windows.net"
   resource_group_name = var.resource_group_name
