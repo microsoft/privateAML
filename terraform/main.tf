@@ -103,6 +103,7 @@ module "acr" {
   location            = var.location
   resource_group_name = azurerm_resource_group.core.name
   shared_subnet       = module.network.shared_subnet_id
+  core_vnet           = module.network.core_vnet_id
 }
 
 module "aml" {
@@ -115,6 +116,7 @@ module "aml" {
   key_vault_id            = module.keyvault.key_vault_id
   storage_account_id      = module.storage.storage_account_id
   container_registry_id   = module.acr.id
+  core_vnet           = module.network.core_vnet_id
 }
 
 module "jumpbox" {

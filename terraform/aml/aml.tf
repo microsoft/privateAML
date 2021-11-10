@@ -13,19 +13,52 @@ resource "azurerm_machine_learning_workspace" "ml" {
   lifecycle { ignore_changes = [tags] }
 }
 
-data "azurerm_private_dns_zone" "azureml" {
+resource "azurerm_private_dns_zone" "azureml" {
   name                = "privatelink.api.azureml.ms"
   resource_group_name = var.resource_group_name
+
+  lifecycle { ignore_changes = [tags] }
 }
 
-data "azurerm_private_dns_zone" "azuremlcert" {
+resource "azurerm_private_dns_zone_virtual_network_link" "azuremllink" {
+  name                  = "azuremllink"
+  resource_group_name   = var.resource_group_name
+  private_dns_zone_name = azurerm_private_dns_zone.azureml.name
+  virtual_network_id    = var.core_vnet
+
+  lifecycle { ignore_changes = [tags] }
+}
+
+resource "azurerm_private_dns_zone" "azuremlcert" {
   name                = "privatelink.cert.api.azureml.ms"
   resource_group_name = var.resource_group_name
+
+  lifecycle { ignore_changes = [tags] }
 }
 
-data "azurerm_private_dns_zone" "notebooks" {
+resource "azurerm_private_dns_zone_virtual_network_link" "azuremlcertlink" {
+  name                  = "azuremlcertlink"
+  resource_group_name   = var.resource_group_name
+  private_dns_zone_name = azurerm_private_dns_zone.azuremlcert.name
+  virtual_network_id    = var.core_vnet
+
+  lifecycle { ignore_changes = [tags] }
+}
+
+resource "azurerm_private_dns_zone" "notebooks" {
   name                = "privatelink.notebooks.azure.net"
   resource_group_name = var.resource_group_name
+
+  lifecycle { ignore_changes = [tags] }
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "notebookslink" {
+  name                  = "notebookslink"
+  resource_group_name   = var.resource_group_name
+  private_dns_zone_name = azurerm_private_dns_zone.notebooks.name
+  virtual_network_id    = var.core_vnet
+
+  lifecycle { ignore_changes = [tags] }
 }
 
 resource "azurerm_private_endpoint" "mlpe" {
@@ -38,7 +71,7 @@ resource "azurerm_private_endpoint" "mlpe" {
 
   private_dns_zone_group {
     name                 = "private-dns-zone-group"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.azureml.id, data.azurerm_private_dns_zone.notebooks.id, data.azurerm_private_dns_zone.azuremlcert.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.azureml.id, azurerm_private_dns_zone.notebooks.id, azurerm_private_dns_zone.azuremlcert.id]
   }
 
   private_service_connection {
