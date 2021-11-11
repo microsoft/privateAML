@@ -4,7 +4,9 @@ resource "azurerm_container_registry" "acr" {
   resource_group_name           = var.resource_group_name
   sku                           = "Premium"
   admin_enabled                 = false
-  public_network_access_enabled = false
+  
+  # Public network access is left as allowed due to the bug in AML not being able to access restricted ACR at this time 
+  # public_network_access_enabled = false
 
   lifecycle { ignore_changes = [tags] }
 }
