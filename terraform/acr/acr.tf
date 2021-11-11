@@ -1,10 +1,10 @@
 resource "azurerm_container_registry" "acr" {
-  name                          = "acr${var.name}"
-  location                      = var.location
-  resource_group_name           = var.resource_group_name
-  sku                           = "Premium"
-  admin_enabled                 = false
-  
+  name                = "acr${var.name}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  sku                 = "Premium"
+  admin_enabled       = false
+
   # Public network access is left as allowed due to the bug in AML not being able to access restricted ACR at this time 
   # public_network_access_enabled = false
 

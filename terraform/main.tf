@@ -116,7 +116,7 @@ module "aml" {
   key_vault_id            = module.keyvault.key_vault_id
   storage_account_id      = module.storage.storage_account_id
   container_registry_id   = module.acr.id
-  core_vnet           = module.network.core_vnet_id
+  core_vnet               = module.network.core_vnet_id
 }
 
 module "jumpbox" {
