@@ -9,6 +9,11 @@ resource "azurerm_key_vault" "kv" {
   purge_protection_enabled = false
 
   lifecycle { ignore_changes = [tags] }
+
+  network_acls {
+    bypass         = "AzureServices"
+    default_action = "Deny"
+  }
 }
 
 resource "azurerm_key_vault_access_policy" "deployer" {

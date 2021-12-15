@@ -2,7 +2,9 @@
 
 ## Project Status
 
-This project provides scripts for a simple deployment of a privately enclosed Azure Machine Learning environment, with all the required services pre-connected. Normally this deployment process is time consuming, as it requires a setup of a wide range of Azure services. Here we utilize one Terraform script, with minimum set of parameters, that can be invoked either directly or via bash script.
+There is a need across industries to enable researchers, analysts, and developers to work with sensitive data sets, while still leveraging benefits coming from the managed public cloud solutions. Setting up an environment that enforces a secure boundary around resources, prevents the exfiltration of sensitive data and enables information governance controls to be enforced, can be a time consuming task.
+
+This project provides Infrastructure as Code scripts for a quick and easy deployment of such an environment, based around privately enclosed Azure Machine Learning, with all the required services pre-connected. Applying the Terraform script with default parameters, will configure a fully functioning private AML environment, that can then be either used as such or connected to internal network via VPN.
 
 While the scripts provided in this repository will get you a quick-start with secure AML environment, for a full production scale Trusted Research Environment you should consider using the [AzureTRE](https://github.com/microsoft/AzureTRE/), that this repository is a spin-off. AzureTRE is a solution accelerator aiming to be a great starting point for a customized Trusted Research Environment, allowing users to customize and deploy fully isolated research environments, one type being AzureML.
 
@@ -15,6 +17,14 @@ It is important before deployment of the solution that the [Support Policy](SUPP
 ![Architecture overview](/assets/privateaml_architecture.png)
 
 ## Getting started
+
+Pre-requirements:
+
+* [Azure CLI (az) installed](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+* [Terraform installed](https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/azure-get-started)
+* [Git installed](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+Commands in this guide are Linux commands, but you can use PowerShell as well, or any other command line tool.
 
 To provision AML resources:
 
@@ -43,7 +53,7 @@ To provision AML resources:
 1. Deploy resources:
 
     ```terraform apply -auto-approve```
-1. Once the resources are deployed you can fetch user name and password for the Jumpbox (marked as sensitive so blocked from outputting after terraform apply) either from Key Vault or you can take json output from terraform:
+1. Once the resources are deployed you can fetch user name and password for the Jumpbox (marked as sensitive so blocked from outputting after terraform apply) by taking json output from terraform:
 
     ```terraform output -json```
 
@@ -81,9 +91,9 @@ Since this is a rather common scenario, and the task of creating a secure ML env
 
 ## Network isolation details
 
-- All provisioned components have either a private IP or a private endpoint connection, and reside on same VNET
-- All inbound traffic is blocked
-- Outbound traffic is limited and only access to the following URLs are allowed:
+* All provisioned components have either a private IP or a private endpoint connection, and reside on same VNET
+* All inbound traffic is blocked
+* Outbound traffic is limited and only access to the following URLs are allowed:
 
     | URL | Reason |
     | --- | --- |
@@ -111,7 +121,7 @@ Since this is a rather common scenario, and the task of creating a secure ML env
     | graph.windows.net | Access to the Microsoft Graph |
     | aadcdn.msftauth.net | Required for Azure auth |
 
-- A network security group is setup on Shared Subnet, with following security rules:
+* A network security group is setup on Shared Subnet, with following security rules:
 
     | Direction | Action | Port | Source | Destination |
     | --- | --- | --- | --- | --- |
