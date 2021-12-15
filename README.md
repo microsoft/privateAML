@@ -75,7 +75,7 @@ For a scalable, multi-user and a user-friendly secure connection to the provisio
 ## Using the environment
 
 1. Navigate to the Azure ML at [https://ml.azure.com](https://ml.azure.com)
-1. Select the ML workspace that was created <ml-name-id>
+1. Select the ML workspace that was created (e.g. "ml-test-1234")
 1. Switch to "Compute" tab and click on New to create a new Compute Instance.
 1. Click on Advanced Settings and select the Virtual Network, Subnet, and enable "No public IP". Press Create to create the Compute Instance.
 1. Switch over to "Compute clusters" tab, and click on New.
@@ -137,7 +137,7 @@ Since this is a rather common scenario, and the task of creating a secure ML env
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+the rights to use your contribution. For details, visit [Contributor License Agreement](https://cla.opensource.microsoft.com).
 
 When you submit a pull request, a CLA bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
