@@ -26,6 +26,7 @@ resource "azurerm_monitor_diagnostic_setting" "firewall" {
   name                       = "diagnostics-firewall-${var.name}"
   target_resource_id         = azurerm_firewall.fw.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
+  log_analytics_destination_type = "AzureDiagnostics"
   log {
     category = "AzureFirewallApplicationRule"
     enabled  = true
@@ -77,6 +78,7 @@ resource "azurerm_monitor_diagnostic_setting" "firewall" {
       days    = 0
     }
   }
+  
 }
 
 resource "azurerm_firewall_application_rule_collection" "shared_subnet" {
