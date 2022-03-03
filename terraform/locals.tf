@@ -8,6 +8,10 @@ resource "random_string" "unique_id" {
   min_numeric = 4
 }
 
+# locals {
+#  name = lower(replace("${var.name}${random_string.unique_id.result}", "-", ""))
+# }
+
 locals {
-  name = lower(replace("${var.name}${random_string.unique_id.result}", "-", ""))
+  name = var.name
 }

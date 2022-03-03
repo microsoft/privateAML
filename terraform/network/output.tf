@@ -1,5 +1,5 @@
 output "core_vnet_id" {
-  value = azurerm_virtual_network.core.id
+  value = data.azurerm_virtual_network.core.id
 }
 
 output "bastion_subnet_id" {
