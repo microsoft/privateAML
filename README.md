@@ -109,6 +109,7 @@ Since this is a rather common scenario, and the task of creating a secure ML env
     | login.windows.net | Required for device enrollment to AAD |
     | *.azureedge.net | Required for device enrollment to AAD |
     | go.microsoft.com | Required for device enrollment to AAD |
+    | msft.sts.microsoft.com | Required for device enrollment to AAD |
     | *github.com | Access to github |
     | *githubassets.com | Access to github |
     | git-scm.com | Access to github |
