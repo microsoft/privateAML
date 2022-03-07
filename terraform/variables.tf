@@ -1,8 +1,8 @@
 variable "name" {
   type        = string
-  description = "A 4 character name identifier, such as 'test'"
+  description = "A 6 character name identifier, such as 'test'"
   validation {
-    condition     = length(var.name) < 5
+    condition     = length(var.name) < 7
     error_message = "The id value must be max 4 chars."
   }
 }

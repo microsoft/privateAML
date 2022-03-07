@@ -1,6 +1,6 @@
 resource "azurerm_public_ip" "fwpip" {
   name                = "pip-fw-${var.name}"
-  resource_group_name = var.resource_group_name
+  resource_group_name = "DELRG"
   location            = var.location
   allocation_method   = "Static"
   sku                 = "Standard"
@@ -11,7 +11,7 @@ resource "azurerm_public_ip" "fwpip" {
 resource "azurerm_firewall" "fw" {
   depends_on          = [azurerm_public_ip.fwpip]
   name                = "fw-${var.name}"
-  resource_group_name = var.resource_group_name
+  resource_group_name = "DELRG"
   location            = var.location
   ip_configuration {
     name                 = "fw-ip-configuration"

@@ -18,15 +18,6 @@ provider "azurerm" {
   }
 }
 
-resource "azurerm_virtual_network" "core" {
-  name                = "sharedVNET"
-  location            = var.location
-  resource_group_name = "DELRG"
-  address_space       = [var.vnet_address_space]
-
-  lifecycle { ignore_changes = [tags] }
-}
-
 resource "azurerm_resource_group" "core" {
   location = var.location
   name     = "rg-${local.name}"
@@ -52,7 +43,7 @@ module "network" {
   location            = var.location
   resource_group_name = azurerm_resource_group.core.name
   vnet_address_space  = var.vnet_address_space
-  core_vnet           = azurerm_virtual_network.core.name
+  core_vnet           = "sharedVNET"
 }
 
 module "storage" {
