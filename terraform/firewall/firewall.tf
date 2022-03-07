@@ -138,6 +138,22 @@ resource "azurerm_firewall_application_rule_collection" "shared_subnet" {
     }
   }
 
+  rule {
+    name             = "allowInnerEyerelated"
+    source_addresses = data.azurerm_subnet.shared.address_prefixes
+    target_fqdns     = local.allowed_InnerEye_urls
+
+    protocol {
+      port = "443"
+      type = "Https"
+    }
+
+    protocol {
+      port = "80"
+      type = "Http"
+    }
+  }
+
 }
 
 resource "azurerm_firewall_network_rule_collection" "general" {
