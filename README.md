@@ -121,6 +121,11 @@ Since this is a rather common scenario, and the task of creating a secure ML env
     | graph.microsoft.com | Access to the Microsoft Graph |
     | graph.windows.net | Access to the Microsoft Graph |
     | aadcdn.msftauth.net | Required for Azure auth |
+    | azure.archive.ubuntu.com | Azure packages for Ubuntu |
+    | repo.anaconda.com | Conda repository |
+    | conda.anaconda.org | Conda repository |
+    | binstar-cio-packages-prod.s3.amazonaws.com | Anaconda packages stored on Amazon S3 |
+
 
 * A network security group is setup on Shared Subnet, with following security rules:
 
