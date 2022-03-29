@@ -1,6 +1,6 @@
 locals {
-  core_services_vnet_subnets            = cidrsubnets(var.vnet_address_space, 4, 4, 4, 4, 2, 2, 2)
-  firewall_subnet_address_space         = local.core_services_vnet_subnets[0] # .0 - .62
-  bastion_subnet_address_prefix         = local.core_services_vnet_subnets[2] # .128 - .191
-  shared_services_subnet_address_prefix = local.core_services_vnet_subnets[4] # .0 - .254
+  core_services_vnet_subnets            = cidrsubnets(var.vnet_address_space,6, 2, 4, 3)
+  firewall_subnet_address_space         = local.core_services_vnet_subnets[1]
+  bastion_subnet_address_prefix         = local.core_services_vnet_subnets[2]
+  shared_services_subnet_address_prefix = local.core_services_vnet_subnets[3]
 }

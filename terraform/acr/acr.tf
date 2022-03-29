@@ -5,8 +5,57 @@ resource "azurerm_container_registry" "acr" {
   sku                 = "Premium"
   admin_enabled       = false
 
-  # Public network access is left as allowed due to the bug in AML not being able to access restricted ACR at this time 
-  # public_network_access_enabled = false
+  public_network_access_enabled = false
+
+  network_rule_set {
+    default_action = "Allow"
+    ip_rule = [
+       {
+       action = "Allow"
+       ip_range = "13.69.64.88/29"
+      },
+      {
+       action = "Allow"
+       ip_range = "13.69.106.80/29"
+      },
+      {
+       action = "Allow"
+       ip_range = "13.69.110.0/24"
+      },
+      {
+       action = "Allow"
+       ip_range = "13.69.110.0/24"
+      },
+      {
+       action = "Allow"
+       ip_range = "13.69.112.192/26"
+      },
+      {
+       action = "Allow"
+       ip_range = "20.50.200.0/24"
+      },
+      {
+       action = "Allow"
+       ip_range = "20.61.97.128/25"
+      },
+      {
+       action = "Allow"
+       ip_range = "52.178.18.0/23"
+      },
+      {
+       action = "Allow"
+       ip_range = "52.178.20.0/24"
+      },
+      {
+       action = "Allow"
+       ip_range = "52.236.186.80/29"
+      },
+      {
+       action = "Allow"
+       ip_range = "52.236.191.0/24"
+      }
+    ]
+  }
 
   lifecycle { ignore_changes = [tags] }
 }
