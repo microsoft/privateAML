@@ -22,3 +22,47 @@ resource "azurerm_bastion_host" "bastion" {
   lifecycle { ignore_changes = [tags] }
 }
 
+resource "azurerm_monitor_diagnostic_setting" "pipbastiondiagnostic" {
+  name                       = "diagnostics-pip-bastion-${var.name}"
+  target_resource_id         = azurerm_public_ip.bastion.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  log {
+    category = "DDoSProtectionNotifications"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+  
+  log {
+    category = "DDoSMitigationReports"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+  
+  log {
+    category = "DDoSMitigationFlowLogs"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+}

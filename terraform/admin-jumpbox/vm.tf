@@ -12,6 +12,20 @@ resource "azurerm_network_interface" "jumpbox_nic" {
   }
 }
 
+resource "azurerm_monitor_diagnostic_setting" "jumpbox_nicdiagnostic" {
+  name                       = "diagnostics-jumpbox-nic-${var.name}"
+  target_resource_id         = azurerm_network_interface.jumpbox_nic.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+    }
+  }
+}
+
 resource "random_string" "username" {
   length      = 4
   upper       = true
@@ -69,5 +83,19 @@ resource "azurerm_virtual_machine" "jumpbox" {
 
   tags = {
     environment = "staging"
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "jumpbox_diagnostic" {
+  name                       = "diagnostics-jumpbox-${var.name}"
+  target_resource_id         = azurerm_virtual_machine.jumpbox.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+    }
   }
 }

@@ -81,3 +81,17 @@ resource "azurerm_private_endpoint" "mlpe" {
     subresource_names              = ["amlworkspace"]
   }
 }
+
+resource "azurerm_monitor_diagnostic_setting" "mlpediagnostic" {
+  name                       = "diagnostics-ml-pe-${var.name}"
+  target_resource_id         = azurerm_private_endpoint.mlpe.network_interface[0].id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+    }
+  }
+}

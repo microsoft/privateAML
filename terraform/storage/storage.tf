@@ -64,6 +64,20 @@ resource "azurerm_private_endpoint" "blobpe" {
   }
 }
 
+resource "azurerm_monitor_diagnostic_setting" "blobpeiagnostic" {
+  name                       = "diagnostics-blobpe-${var.name}"
+  target_resource_id         = azurerm_private_endpoint.blobpe.network_interface[0].id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+    }
+  }
+}
+
 resource "azurerm_private_endpoint" "filepe" {
   name                = "pe-file-${var.name}"
   location            = var.location
@@ -82,5 +96,19 @@ resource "azurerm_private_endpoint" "filepe" {
     private_connection_resource_id = azurerm_storage_account.stg.id
     is_manual_connection           = false
     subresource_names              = ["file"]
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "filepeiagnostic" {
+  name                       = "diagnostics-filepe-${var.name}"
+  target_resource_id         = azurerm_private_endpoint.filepe.network_interface[0].id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+    }
   }
 }

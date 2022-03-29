@@ -30,3 +30,26 @@ resource "azurerm_subnet" "shared" {
   enforce_private_link_endpoint_network_policies = true
   enforce_private_link_service_network_policies  = true
 }
+
+resource "azurerm_monitor_diagnostic_setting" "networkcorediagnostic" {
+  name                       = "diagnostics-net-core-${var.name}"
+  target_resource_id         = azurerm_virtual_network.core.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  log {
+    category = "VMProtectionAlerts"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+    }
+  }
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+    }
+  }
+}

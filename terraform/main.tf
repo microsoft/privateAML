@@ -43,6 +43,7 @@ module "network" {
   location            = var.location
   resource_group_name = azurerm_resource_group.core.name
   vnet_address_space  = var.vnet_address_space
+  log_analytics_workspace_id = module.azure_monitor.log_analytics_workspace_id  
 }
 
 module "storage" {
@@ -52,6 +53,7 @@ module "storage" {
   resource_group_name = azurerm_resource_group.core.name
   shared_subnet       = module.network.shared_subnet_id
   core_vnet           = module.network.core_vnet_id
+  log_analytics_workspace_id = module.azure_monitor.log_analytics_workspace_id
 
   depends_on = [
     module.network
@@ -66,6 +68,7 @@ module "keyvault" {
   shared_subnet       = module.network.shared_subnet_id
   core_vnet           = module.network.core_vnet_id
   tenant_id           = data.azurerm_client_config.current.tenant_id
+  log_analytics_workspace_id = module.azure_monitor.log_analytics_workspace_id
 }
 
 module "firewall" {
@@ -95,6 +98,7 @@ module "bastion" {
   location            = var.location
   resource_group_name = azurerm_resource_group.core.name
   bastion_subnet      = module.network.bastion_subnet_id
+  log_analytics_workspace_id = module.azure_monitor.log_analytics_workspace_id
 }
 
 module "acr" {
@@ -104,6 +108,7 @@ module "acr" {
   resource_group_name = azurerm_resource_group.core.name
   shared_subnet       = module.network.shared_subnet_id
   core_vnet           = module.network.core_vnet_id
+  log_analytics_workspace_id = module.azure_monitor.log_analytics_workspace_id
 }
 
 module "aml" {
@@ -117,6 +122,7 @@ module "aml" {
   storage_account_id      = module.storage.storage_account_id
   container_registry_id   = module.acr.id
   core_vnet               = module.network.core_vnet_id
+  log_analytics_workspace_id = module.azure_monitor.log_analytics_workspace_id
 }
 
 module "jumpbox" {
@@ -126,6 +132,7 @@ module "jumpbox" {
   resource_group_name = azurerm_resource_group.core.name
   shared_subnet       = module.network.shared_subnet_id
   key_vault_id        = module.keyvault.key_vault_id
+  log_analytics_workspace_id = module.azure_monitor.log_analytics_workspace_id  
   depends_on = [
     module.keyvault
   ]

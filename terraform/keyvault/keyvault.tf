@@ -6,7 +6,7 @@ resource "azurerm_key_vault" "kv" {
   location                 = var.location
   resource_group_name      = var.resource_group_name
   sku_name                 = "standard"
-  purge_protection_enabled = false
+  purge_protection_enabled = true
 
   lifecycle { ignore_changes = [tags] }
 
@@ -61,5 +61,44 @@ resource "azurerm_private_endpoint" "kvpe" {
     private_connection_resource_id = azurerm_key_vault.kv.id
     is_manual_connection           = false
     subresource_names              = ["Vault"]
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "kvpediagnostic" {
+  name                       = "diagnostics-kvpe-${var.name}"
+  target_resource_id         = azurerm_private_endpoint.kvpe.network_interface[0].id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+    }
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "kvdiagnostic" {
+  name                       = "diagnostics-kv-${var.name}"
+  target_resource_id         = azurerm_key_vault.kv.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  log {
+    category = "AuditEvent"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
   }
 }

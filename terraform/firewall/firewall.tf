@@ -8,6 +8,51 @@ resource "azurerm_public_ip" "fwpip" {
   lifecycle { ignore_changes = [tags] }
 }
 
+resource "azurerm_monitor_diagnostic_setting" "pipfwipdiagnostic" {
+  name                       = "diagnostics-pip-fwip-${var.name}"
+  target_resource_id         = azurerm_public_ip.fwpip.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  log {
+    category = "DDoSProtectionNotifications"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+  
+  log {
+    category = "DDoSMitigationReports"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+  
+  log {
+    category = "DDoSMitigationFlowLogs"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+      days    = 365
+    }
+  }
+}
+
 resource "azurerm_firewall" "fw" {
   depends_on          = [azurerm_public_ip.fwpip]
   name                = "fw-${var.name}"

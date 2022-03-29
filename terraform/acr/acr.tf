@@ -96,3 +96,49 @@ resource "azurerm_private_endpoint" "acrpe" {
     subresource_names              = ["registry"]
   }
 }
+
+resource "azurerm_monitor_diagnostic_setting" "acrdiagnostic" {
+  name                       = "diagnostics-acr-${var.name}"
+  target_resource_id         = azurerm_container_registry.acr.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  log {
+    category = "ContainerRegistryRepositoryEvents"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+    }
+  }
+
+  log {
+    category = "ContainerRegistryLoginEvents"
+    enabled  = true
+
+    retention_policy {
+      enabled = true
+    }
+  }
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+    }
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "acrpediagnostic" {
+  name                       = "diagnostics-acr-pe-${var.name}"
+  target_resource_id         = azurerm_private_endpoint.acrpe.network_interface[0].id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+    }
+  }
+}
