@@ -127,7 +127,7 @@ resource "azurerm_network_security_rule" "allow-batch-inbound" {
   name                        = "allow-Batch-inbound"
   network_security_group_name = azurerm_network_security_group.shared_rules.name
   priority                    = 200
-  protocol                    = "TCP"
+  protocol                    = "Tcp"
   resource_group_name         = var.resource_group_name
   source_port_range           = "*"
 }
@@ -141,7 +141,7 @@ resource "azurerm_network_security_rule" "allow-aml-inbound" {
   name                        = "allow-AzureML-inbound"
   network_security_group_name = azurerm_network_security_group.shared_rules.name
   priority                    = 201
-  protocol                    = "TCP"
+  protocol                    = "Tcp"
   resource_group_name         = var.resource_group_name
   source_port_range           = "*"
 }
@@ -155,7 +155,7 @@ resource "azurerm_network_security_rule" "allow-Outbound_Storage_445" {
   name                        = "allow-Outbound-Storage-445"
   network_security_group_name = azurerm_network_security_group.shared_rules.name
   priority                    = 202
-  protocol                    = "TCP"
+  protocol                    = "Tcp"
   resource_group_name         = var.resource_group_name
   source_port_range           = "*"
 }
