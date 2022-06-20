@@ -56,6 +56,8 @@ resource "azurerm_monitor_diagnostic_setting" "pipfwipdiagnostic" {
 resource "azurerm_firewall" "fw" {
   depends_on          = [azurerm_public_ip.fwpip]
   name                = "fw-${var.name}"
+  sku_name            = "AZFW_VNet"
+  sku_tier            = "Standard"
   resource_group_name = var.resource_group_name
   location            = var.location
   ip_configuration {
